@@ -1,0 +1,143 @@
+version: "3"
+
+services:
+###################################################################################################
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8-rogermm
+    container_name: namenode
+    restart: always
+    ports:
+      - 9870:9870
+      - 9000:9000
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
+    networks:
+      - spark-net
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8-rogermm
+    container_name: datanode
+    restart: always
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 9864:9864      
+    networks:
+      - spark-net
+
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8-rogermm
+    container_name: resourcemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8088:8088
+    networks:
+      - spark-net
+
+  nodemanager1:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8-rogermm
+    container_name: nodemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8042:8042
+    networks:
+      - spark-net
+
+  historyserver:
+    image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8-rogermm
+    container_name: historyserver
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env
+    ports:
+      - 8188:8188
+    networks:
+      - spark-net
+
+###################################################################################################
+
+# HIVE metastore Postgre SQL database
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:3.1.0
+    container_name: hive-metastore-postgresql
+    networks:
+      - spark-net
+
+  hive-metastore:
+    image: bde2020/hive:master
+    container_name: hive-metastore
+    env_file:
+      - ./hadoop.env
+      - ./hive.env
+    command: /opt/hive/bin/hive --service metastore -v
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 datanode:9864 hive-metastore-postgresql:5432"
+    ports:
+      - "9083:9083"
+    networks:
+      - spark-net
+
+# HIVE Server
+  hive-server:
+    image: bde2020/hive:master
+    container_name: hive-server
+    env_file:
+      - ./hadoop.env
+      - ./hive.env
+    environment:
+       SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"
+    networks:
+      - spark-net
+
+###################################################################################################
+  hue:
+    image: rogermm/hue:latest
+    container_name: hue
+    ports:
+      - 8089:8888
+    environment:
+      - NAMENODE_HOST=namenode
+    depends_on:
+      - namenode
+    networks:
+      - spark-net
+
+###################################################################################################
+  presto-coordinator:
+    image: shawnzhu/prestodb:0.215
+    container_name: presto-coordinator
+    ports:
+      - "8080:8080"
+
+###################################################################################################
+volumes:
+  hadoop_namenode:
+  hadoop_datanode:
+  hadoop_historyserver:
+
+networks:
+  spark-net:
+    external:
+      name: spark-net
