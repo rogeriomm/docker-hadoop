@@ -1,4 +1,7 @@
-FROM bde2020/hadoop-base:2.0.0-hadoop3.2.1-java8-rogermm
+ARG USERNAME
+ARG TAG
+
+FROM $USERNAME/hadoop-base:$TAG
 
 MAINTAINER Ivan Ermilov <ivan.s.ermilov@gmail.com>
 

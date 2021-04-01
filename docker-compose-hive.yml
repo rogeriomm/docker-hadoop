@@ -3,7 +3,7 @@ version: "3"
 services:
 ###################################################################################################
   namenode:
-    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8-rogermm
+    image: ${USERNAME}/hadoop-namenode:2.0.0-hadoop3.2.1-java8-bdb
     container_name: namenode
     restart: always
     ports:
@@ -19,7 +19,7 @@ services:
       - spark-net
 
   datanode:
-    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8-rogermm
+    image: ${USERNAME}/hadoop-datanode:2.0.0-hadoop3.2.1-java8-bdb
     container_name: datanode
     restart: always
     volumes:
@@ -34,7 +34,7 @@ services:
       - spark-net
 
   resourcemanager:
-    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8-rogermm
+    image: ${USERNAME}/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8-bdb
     container_name: resourcemanager
     restart: always
     environment:
@@ -47,7 +47,7 @@ services:
       - spark-net
 
   nodemanager1:
-    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8-rogermm
+    image: ${USERNAME}/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8-bdb
     container_name: nodemanager
     restart: always
     environment:
@@ -60,7 +60,7 @@ services:
       - spark-net
 
   historyserver:
-    image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8-rogermm
+    image: ${USERNAME}/hadoop-historyserver:2.0.0-hadoop3.2.1-java8-bdb
     container_name: historyserver
     restart: always
     environment:
@@ -78,13 +78,13 @@ services:
 
 # HIVE metastore Postgre SQL database
   hive-metastore-postgresql:
-    image: bde2020/hive-metastore-postgresql:3.1.0
+    image: ${USERNAME}/hive-metastore-postgresql:3.1.0
     container_name: hive-metastore-postgresql
     networks:
       - spark-net
 
   hive-metastore:
-    image: bde2020/hive:master
+    image: ${USERNAME}/hive:2.0.0-hadoop3.2.1-java8-bdb
     container_name: hive-metastore
     env_file:
       - ./hadoop.env
@@ -99,7 +99,7 @@ services:
 
 # HIVE Server
   hive-server:
-    image: bde2020/hive:master
+    image: ${USERNAME}/hive:2.0.0-hadoop3.2.1-java8-bdb
     container_name: hive-server
     env_file:
       - ./hadoop.env
@@ -113,7 +113,7 @@ services:
 
 ###################################################################################################
   hue:
-    image: rogermm/hue:latest
+    image: gethue/hue:latest
     container_name: hue
     ports:
       - 8089:8888
