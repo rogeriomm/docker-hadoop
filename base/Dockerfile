@@ -9,6 +9,10 @@ RUN apt-get update && apt-get upgrade -y && DEBIAN_FRONTEND=noninteractive apt-g
       curl \
       netcat \
       gnupg \
+      wget \
+      vim \
+      links \
+      unzip \
     && rm -rf /var/lib/apt/lists/*
       
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
@@ -17,7 +21,7 @@ RUN curl -O https://dist.apache.org/repos/dist/release/hadoop/common/KEYS
 
 RUN gpg --import KEYS
 
-ENV HADOOP_VERSION 3.2.1
+ENV HADOOP_VERSION 3.2.2
 ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 
 RUN set -x \
@@ -26,6 +30,10 @@ RUN set -x \
     && gpg --verify /tmp/hadoop.tar.gz.asc \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
     && rm /tmp/hadoop.tar.gz*
+
+RUN set -x \
+    && curl -fSL http://files.grouplens.org/datasets/movielens/ml-100k.zip -o /tmp/ml-100k.zip \
+    && unzip /tmp/ml-100k.zip -d /root
 
 RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
 
