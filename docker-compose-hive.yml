@@ -137,8 +137,9 @@ services:
     networks:
       - spark-net
 
+  # https://github.com/cloudera/hue/tree/master/tools/docker/hue#configuration
   hue:
-    image: gethue/hue:latest
+    image: rogermm/hue-hue:2.0.0-hadoop3.2.2-java8-bdb
     container_name: hue
     ports:
       - 8089:8888

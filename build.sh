@@ -17,7 +17,8 @@ build() {
     cd $([ -z "$4" ] && echo "./$NAME" || echo "$4")
     echo '--------------------------' building $IMAGE in $(pwd)
     echo "--->docker build -t $IMAGE --build-arg USERNAME=$1 --build-arg TAG=$TAG .<---"
-    docker build --no-cache -t $IMAGE --build-arg USERNAME=$1 --build-arg TAG=$TAG .
+    #docker build --no-cache -t $IMAGE --build-arg USERNAME=$1 --build-arg TAG=$TAG .
+    docker build -t $IMAGE --build-arg USERNAME=$1 --build-arg TAG=$TAG .
     cd -
 }
 
@@ -34,6 +35,7 @@ if [ "$username" == "" ] ; then
   exit
 fi
 
+build "$username" hue hue
 build "$username" hadoop base
 build "$username" hadoop namenode
 build "$username" hadoop datanode
@@ -41,4 +43,3 @@ build "$username" hadoop resourcemanager
 build "$username" hadoop historyserver
 build "$username" hadoop submit
 build "$username" hadoop nodemanager
-
