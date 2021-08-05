@@ -15,6 +15,11 @@ services:
       - CLUSTER_NAME=test
     env_file:
       - ./hadoop.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hadoop_namenode.rule=Host(`hadoop.namenode.bdb`)"
+      - "traefik.http.routers.hadoop_namenode.entrypoints=web"
+      - "traefik.http.services.hadoop_namenode.loadbalancer.server.port=9870"
     networks:
       - spark-net
 
@@ -29,7 +34,12 @@ services:
     env_file:
       - ./hadoop.env
     ports:
-      - 9864:9864      
+      - 9864:9864
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hadoop_datanode.rule=Host(`hadoop.datanode.bdb`)"
+      - "traefik.http.routers.hadoop_datanode.entrypoints=web"
+      - "traefik.http.services.hadoop_datanode.loadbalancer.server.port=9864"
     networks:
       - spark-net
 
@@ -56,6 +66,11 @@ services:
       - ./hadoop.env
     ports:
       - 8042:8042
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hadoop_nodemanager.rule=Host(`hadoop.nodemanager.bdb`)"
+      - "traefik.http.routers.hadoop_nodemanager.entrypoints=web"
+      - "traefik.http.services.hadoop_nodemanager.loadbalancer.server.port=8042"
     networks:
       - spark-net
 
@@ -71,6 +86,11 @@ services:
       - ./hadoop.env
     ports:
       - 8188:8188
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hadoop_history.rule=Host(`hadoop.history.bdb`)"
+      - "traefik.http.routers.hadoop_history.entrypoints=web"
+      - "traefik.http.services.hadoop_history.loadbalancer.server.port=8188"
     networks:
       - spark-net
 
@@ -109,6 +129,11 @@ services:
     ports:
       - "10000:10000"
       - "10002:10002"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hadoop_hive.rule=Host(`hadoop.hive.bdb`)"
+      - "traefik.http.routers.hadoop_hive.entrypoints=web"
+      - "traefik.http.services.hadoop_hive.loadbalancer.server.port=10002"
     networks:
       - spark-net
 
@@ -121,6 +146,10 @@ services:
         - NAMENODE_HOST=namenode
     depends_on:
       - namenode
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hadoop_hue.rule=Host(`hue.bdb`)"
+      - "traefik.http.routers.hadoop_hue.entrypoints=web"
     networks:
       - spark-net
 
@@ -129,6 +158,12 @@ services:
     container_name: presto-coordinator
     ports:
       - "8081:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hadoop_presto.rule=Host(`presto.bdb`)"
+      - "traefik.http.routers.hadoop_presto.entrypoints=web"
+    networks:
+      - spark-net
 
 volumes:
   hadoop_namenode:
