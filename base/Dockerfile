@@ -13,6 +13,7 @@ RUN apt-get update && apt-get upgrade -y && DEBIAN_FRONTEND=noninteractive apt-g
       vim \
       links \
       unzip \
+      libsnappy-dev \
     && rm -rf /var/lib/apt/lists/*
       
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/

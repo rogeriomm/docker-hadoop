@@ -142,11 +142,12 @@ services:
     image: rogermm/hue-hue:2.0.0-hadoop3.2.2-java8-bdb
     container_name: hue
     ports:
-      - 8089:8888
+      - 8089:80
     environment:
         - NAMENODE_HOST=namenode
     depends_on:
       - namenode
+      - datanode
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hadoop_hue.rule=Host(`hue.bdb`)"
