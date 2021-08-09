@@ -7,8 +7,8 @@ services:
     container_name: namenode
     restart: always
     ports:
-      - 9870:9870
-      - 9000:9000
+      - "9870:9870"
+      - "9000:9000"
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
     environment:
@@ -34,7 +34,7 @@ services:
     env_file:
       - ./hadoop.env
     ports:
-      - 9864:9864
+      - "9864:9864"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hadoop_datanode.rule=Host(`hadoop.datanode.bdb`)"
@@ -65,7 +65,7 @@ services:
     env_file:
       - ./hadoop.env
     ports:
-      - 8042:8042
+      - "8042:8042"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hadoop_nodemanager.rule=Host(`hadoop.nodemanager.bdb`)"
@@ -85,7 +85,7 @@ services:
     env_file:
       - ./hadoop.env
     ports:
-      - 8188:8188
+      - "8188:8188"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hadoop_history.rule=Host(`hadoop.history.bdb`)"
@@ -142,7 +142,7 @@ services:
     image: rogermm/hue-hue:2.0.0-hadoop3.2.2-java8-bdb
     container_name: hue
     ports:
-      - 8089:80
+      - "8089:80"
     environment:
         - NAMENODE_HOST=namenode
     depends_on:

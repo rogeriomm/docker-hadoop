@@ -36,10 +36,10 @@ if [ "$username" == "" ] ; then
 fi
 
 build "$username" hue hue
-#build "$username" hadoop base
-#build "$username" hadoop namenode
-#build "$username" hadoop datanode
-#build "$username" hadoop resourcemanager
-#build "$username" hadoop historyserver
-#build "$username" hadoop submit
-#build "$username" hadoop nodemanager
+build "$username" hadoop base
+build "$username" hadoop namenode
+build "$username" hadoop datanode
+build "$username" hadoop resourcemanager
+build "$username" hadoop historyserver
+build "$username" hadoop submit
+build "$username" hadoop nodemanager

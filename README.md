@@ -1,5 +1,11 @@
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/big-data-europe/Lobby)
 
+  * https://kontext.tech/column/hadoop/303/hiveserver2-cannot-connect-to-hive-metastore-resolutionsworkarounds
+     * FIXME
+  * exec-hive-server.sh
+     * Execute beeline: 
+        * beeline> !connect jdbc:hive2://localhost:10000/default -n username hue
+
    * See new updates at https://github.com/big-data-europe/docker-hadoop
 
 # Changes
