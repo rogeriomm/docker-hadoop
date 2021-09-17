@@ -3,7 +3,7 @@ version: "3"
 services:
 ###################################################################################################
   namenode:
-    image: ${USERNAME}/hadoop-namenode:2.0.0-hadoop3.2.2-java8-bdb
+    image: ${USERNAME}/hadoop-namenode:2.0.0-hadoop3.3.1-java8-bdb
     container_name: namenode
     restart: always
     ports:
@@ -24,7 +24,7 @@ services:
       - spark-net
 
   datanode:
-    image: ${USERNAME}/hadoop-datanode:2.0.0-hadoop3.2.2-java8-bdb
+    image: ${USERNAME}/hadoop-datanode:2.0.0-hadoop3.3.1-java8-bdb
     container_name: datanode
     restart: always
     volumes:
@@ -44,7 +44,7 @@ services:
       - spark-net
 
   resourcemanager:
-    image: ${USERNAME}/hadoop-resourcemanager:2.0.0-hadoop3.2.2-java8-bdb
+    image: ${USERNAME}/hadoop-resourcemanager:2.0.0-hadoop3.3.1-java8-bdb
     container_name: resourcemanager
     restart: always
     environment:
@@ -57,7 +57,7 @@ services:
       - spark-net
 
   nodemanager1:
-    image: ${USERNAME}/hadoop-nodemanager:2.0.0-hadoop3.2.2-java8-bdb
+    image: ${USERNAME}/hadoop-nodemanager:2.0.0-hadoop3.3.1-java8-bdb
     container_name: nodemanager
     restart: always
     environment:
@@ -75,7 +75,7 @@ services:
       - spark-net
 
   historyserver:
-    image: ${USERNAME}/hadoop-historyserver:2.0.0-hadoop3.2.2-java8-bdb
+    image: ${USERNAME}/hadoop-historyserver:2.0.0-hadoop3.3.1-java8-bdb
     container_name: historyserver
     restart: always
     environment:
@@ -104,7 +104,7 @@ services:
       - spark-net
 
   hive-metastore:
-    image: ${USERNAME}/hive:2.0.0-hadoop3.2.2-java8-bdb
+    image: ${USERNAME}/hive:2.0.0-hadoop3.3.1-java8-bdb
     container_name: hive-metastore
     env_file:
       - ./hadoop.env
@@ -119,7 +119,7 @@ services:
 
 # HIVE Server
   hive-server:
-    image: ${USERNAME}/hive:2.0.0-hadoop3.2.2-java8-bdb
+    image: ${USERNAME}/hive:2.0.0-hadoop3.3.1-java8-bdb
     container_name: hive-server
     env_file:
       - ./hadoop.env
@@ -139,7 +139,7 @@ services:
 
   # https://github.com/cloudera/hue/tree/master/tools/docker/hue#configuration
   hue:
-    image: rogermm/hue-hue:2.0.0-hadoop3.2.2-java8-bdb
+    image: rogermm/hue-hue:2.0.0-hadoop3.3.1-java8-bdb
     container_name: hue
     ports:
       - "8089:80"
