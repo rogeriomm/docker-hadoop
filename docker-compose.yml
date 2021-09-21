@@ -139,7 +139,7 @@ services:
 
   # https://github.com/cloudera/hue/tree/master/tools/docker/hue#configuration
   hue:
-    image: rogermm/hue-hue:2.0.0-hadoop3.3.1-java8-bdb
+    image: rogermm/hue:2.0.0-hadoop3.3.1-java8-bdb
     container_name: hue
     ports:
       - "8089:80"
